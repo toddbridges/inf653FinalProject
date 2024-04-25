@@ -6,6 +6,14 @@ data.states = require('../model/statesData.json');
 const State = require('../model/State.js');
 const verifyState = require('../middleware/verifyState.js');
 
+const stateCodes = [];
+const j = require('../model/statesData.json');
+
+for(var i in j) {
+    var item = j[i];
+    stateCodes.push(item.code);
+}
+
 
 const getAllStates = async (req,res) => {
 
@@ -131,7 +139,8 @@ const getStateCapital = (req, res) => {
     // console.log("at the get state captial part.");
     
     const input = (req.params.state).toUpperCase();
-    let answer = {};
+    if(stateCodes.includes(input)) {
+        let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
         if(data.states[i].code == input) {
@@ -142,6 +151,10 @@ const getStateCapital = (req, res) => {
         }
     }
     res.json(answer);
+    } else {
+        res.json({"message": "Invalid state abbreviation parameter"})
+    }
+    
 }
 const getStateNickname = (req, res) => {
     // console.log("at the get state nickname part.");
