@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(12, 22, 24);
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 36px;
+    min-height: 100vh;
+    color: rgb(231, 220, 243);
+    background-color: #000;
+    display: grid;
+    place-content: center;
+}
