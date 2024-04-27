@@ -74,11 +74,11 @@ const getAllStates = async (req,res) => {
 
 const createNewStateFunfact = async (req, res) => {
     
-    const info = (req.body.funfacts);
+    const info = (req.body)
     
-    var theInfo = [];  // [] 
-    for(let i = 0; i < info.length; i++) { // got rid of funfacts for info.length
-        theInfo.push(info[i]);
+    var theInfo = [];
+    for(let i = 0; i < info.funfacts.length; i++) {
+        theInfo.push(info.funfacts[i]);
     }
 
 
@@ -139,16 +139,21 @@ const getStateCapital = (req, res) => {
     // console.log("at the get state captial part.");
     
     const input = (req.params.state).toUpperCase();
-    let answer = {};
+    if(stateCodes.includes(input)) {
+        let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
         if(data.states[i].code == input) {
+            
             answer.state = data.states[i].state;
-            answer.capital = (data.states[i].capital_city);
+            answer.capital = data.states[i].capital_city;
             
         }
     }
     res.json(answer);
+    } else {
+        res.json({"message": "Invalid state abbreviation parameter"})
+    }
     
 }
 const getStateNickname = (req, res) => {
