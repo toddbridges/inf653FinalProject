@@ -188,7 +188,7 @@ const getStatePopulation = (req, res) => {
         if(data.states[i].code == input) {
             
             answer.state = data.states[i].state;
-            answer.population = (data.states[i].population).toLocaleString();
+            answer.capital = data.states[i].capital_city;
             
         }
     }
@@ -196,6 +196,23 @@ const getStatePopulation = (req, res) => {
     } else {
         res.json({"message": "Invalid state abbreviation parameter"})
     }
+
+    /* const input = (req.params.state).toUpperCase();
+    if(stateCodes.includes(input)) {
+        let answer = {};
+    
+    for(let i = 0; i < data.states.length; i++) {
+        if(data.states[i].code == input) {
+            
+            answer.state = data.states[i].state;
+            answer.population = (data.states[i].population).toLocaleString();
+            
+        }
+    }
+    res.json(answer);
+    } else {
+        res.json({"message": "Invalid state abbreviation parameter"})
+    } */
 }
 
 const getStateAdmission = (req, res) => {
