@@ -188,7 +188,7 @@ const getStatePopulation = (req, res) => {
         if(data.states[i].code == input) {
             
             answer.state = data.states[i].state;
-            answer.capital = data.states[i].capital_city;
+            answer.population = data.states[i].population;
             
         }
     }
