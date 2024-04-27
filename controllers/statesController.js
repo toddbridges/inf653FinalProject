@@ -73,14 +73,14 @@ const getAllStates = async (req,res) => {
 }
 
 const createNewStateFunfact = async (req, res) => {
-    console.log("in the create new state funfact");
-    const info = (req.body.funfacts);
-    console.log(info);
     
-    /* var theInfo = [];
-    for(let i = 0; i < info.funfacts.length; i++) {
-        theInfo.push(info.funfacts[i]);
-    } */
+    const info = (req.body.funfacts);
+    
+    var theInfo = [];  // [] 
+    for(let i = 0; i < info.length; i++) { // got rid of funfacts for info.length
+        theInfo.push(info[i]);
+    }
+
 
     const input = (req.params.state).toUpperCase();
     // const theState = req.body.stateCode;
@@ -91,14 +91,14 @@ const createNewStateFunfact = async (req, res) => {
             { stateCode: input },
             {
                 $push: {
-                  funfacts: info
+                  funfacts: { $each: theInfo  }
                 }
                 
             }
         );
         
 
-        
+        //console.log(result);
         res.status(201).json(answer);
     } catch (err) {
         console.error(err);
@@ -127,58 +127,44 @@ const getState = async (req, res) => {
             theAnswer = (localStates[i]);
         }
     }
-    if(mongState.funfacts) {
+    
     theAnswer['funfacts'] = mongState.funfacts; // This adds the MongoDB info to the object
-    }
+    
     res.json(theAnswer);
     
     // console.log("the test is here");
 }
 
 const getStateCapital = (req, res) => {
-    console.log("at the get state captial part.");
+    // console.log("at the get state captial part.");
     
     const input = (req.params.state).toUpperCase();
-    
-    if(stateCodes.includes(input)) {
-        let answer = {};
+    let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
         if(data.states[i].code == input) {
-            
             answer.state = data.states[i].state;
-            answer.capital = data.states[i].capital_city;
+            answer.capital = (data.states[i].capital_city);
             
         }
     }
-    
-    return res.json( answer );
-    } else {
-        res.json({"message": "Invalid state abbreviation parameter"});
-    }
+    res.json(answer);
     
 }
 const getStateNickname = (req, res) => {
     // console.log("at the get state nickname part.");
     
     const input = (req.params.state).toUpperCase();
-
-    if(!stateCodes.includes(input)) {
-        res.json({"message": "Invalid state abbreviation parameter"});
-    }
-
-        let answer = {};
+    let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
         if(data.states[i].code == input) {
-            
             answer.state = data.states[i].state;
             answer.nickname = data.states[i].nickname;
             
         }
     }
     res.json(answer);
-    
 }
 
 const getStatePopulation = (req, res) => {
@@ -212,10 +198,8 @@ const getStateAdmission = (req, res) => {
 }
 
 const updateFunfacts = async (req, res) => {
-
-
-    if (!req.body?.funfact) {
-        return res.json({ 'message': 'State fun fact value required'});
+    if (!req.body?.funfacts || !req.body?.index) {
+        return res.status(400).json({ 'message': 'index and funfacts are required' });
     }
 
     const arrayIndex = req.body.index - 1;  // mongodb is zero based array indexing
@@ -230,8 +214,7 @@ const updateFunfacts = async (req, res) => {
             }
         );
         
-        const returned = res.status(201).json(answer);
-        return returned;
+        res.status(201).json(answer);
     } catch (err) {
         console.error(err);
     }

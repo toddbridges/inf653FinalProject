@@ -10,7 +10,7 @@ router.route('/?contig=true')  // might have to make this =true
 router.route('/')
     .get(statesController.getAllStates)
     .post(statesController.createNewStateFunfact)
-    .put(statesController.updateStateFunfact)
+    .patch(statesController.updateFunfacts)  // changed from put
     .delete(statesController.deleteFunfact);
 
 //router.route('/:state/funfacts')
