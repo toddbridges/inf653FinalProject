@@ -233,8 +233,16 @@ const getStateAdmission = (req, res) => {
 }
 
 const updateFunfacts = async (req, res) => {
-    if (!req.body?.funfacts || !req.body?.index) {
+    /* if (!req.body?.funfacts || !req.body?.index) {
         return res.status(400).json({ 'message': 'index and funfacts are required' });
+    } */
+
+    if (!req.body?.index) {
+        return res.json({ 'message': 'State fun fact index value required'});
+    }
+
+    if (!req.body?.funfact) {
+        return res.json({ 'message': 'State fun fact value required'});
     }
 
     const arrayIndex = req.body.index - 1;  // mongodb is zero based array indexing
@@ -249,7 +257,8 @@ const updateFunfacts = async (req, res) => {
             }
         );
         
-        res.status(201).json(answer);
+        const returned = res.status(201).json(answer);
+        return returned;
     } catch (err) {
         console.error(err);
     }
