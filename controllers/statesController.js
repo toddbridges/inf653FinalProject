@@ -117,6 +117,9 @@ const getState = async (req, res) => {
     const localStates = data.states;
     
     const theState = (req.params.state).toUpperCase();
+    if(theState.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     
     var theAnswer = {};
     var index = -1;
@@ -139,6 +142,9 @@ const getStateCapital = (req, res) => {
     // console.log("at the get state captial part.");
     
     const input = (req.params.state).toUpperCase();
+    if(input.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     if(stateCodes.includes(input)) {
         let answer = {};
     
@@ -160,6 +166,9 @@ const getStateNickname = (req, res) => {
     // console.log("at the get state nickname part.");
     
     const input = (req.params.state).toUpperCase();
+    if(input.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
@@ -175,6 +184,9 @@ const getStateNickname = (req, res) => {
 const getStatePopulation = (req, res) => {
     
     const input = (req.params.state).toUpperCase();
+    if(input.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
@@ -190,6 +202,9 @@ const getStatePopulation = (req, res) => {
 const getStateAdmission = (req, res) => {
     
     const input = (req.params.state).toUpperCase();
+    if(input.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
@@ -266,6 +281,9 @@ const getContigStates = async (req,res) => {
 const randomFunfact = async (req, res) => {
     
     const theState = (req.params.state).toUpperCase();
+    if(theState.length > 2) {
+        res.json({"message": "Invalid state abbreviation parameter"});
+      }
     var theAnswer = {};
     
     const mongState = await State.findOne({ stateCode: theState });
