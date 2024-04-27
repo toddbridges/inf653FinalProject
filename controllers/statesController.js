@@ -127,9 +127,9 @@ const getState = async (req, res) => {
             theAnswer = (localStates[i]);
         }
     }
-    
+    if(mongState.funfacts) {
     theAnswer['funfacts'] = mongState.funfacts; // This adds the MongoDB info to the object
-    
+    }
     res.json(theAnswer);
     
     // console.log("the test is here");
