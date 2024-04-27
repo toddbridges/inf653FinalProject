@@ -181,40 +181,18 @@ const getStateNickname = (req, res) => {
 }
 
 const getStatePopulation = (req, res) => {
-
+    
     const input = (req.params.state).toUpperCase();
-    if(stateCodes.includes(input)) {
-        let answer = {};
+    let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
         if(data.states[i].code == input) {
-            
-            answer.state = data.states[i].state;
-            answer.population = data.states[i].population.toLocaleString();
-            
-        }
-    }
-    res.json(answer);
-    } else {
-        res.json({"message": "Invalid state abbreviation parameter"});
-    }
-
-    /* const input = (req.params.state).toUpperCase();
-    if(stateCodes.includes(input)) {
-        let answer = {};
-    
-    for(let i = 0; i < data.states.length; i++) {
-        if(data.states[i].code == input) {
-            
             answer.state = data.states[i].state;
             answer.population = (data.states[i].population).toLocaleString();
             
         }
     }
     res.json(answer);
-    } else {
-        res.json({"message": "Invalid state abbreviation parameter"})
-    } */
 }
 
 const getStateAdmission = (req, res) => {
@@ -233,13 +211,7 @@ const getStateAdmission = (req, res) => {
 }
 
 const updateFunfacts = async (req, res) => {
-    /* if (!req.body?.funfacts || !req.body?.index) {
-        return res.status(400).json({ 'message': 'index and funfacts are required' });
-    } */
 
-    if (!req.body?.index) {
-        return res.json({ 'message': 'State fun fact index value required'});
-    }
 
     if (!req.body?.funfact) {
         return res.json({ 'message': 'State fun fact value required'});
