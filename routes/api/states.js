@@ -7,11 +7,11 @@ const statesController = require('../../controllers/statesController');
 router.route('/?contig=true')  // might have to make this =true
     .get(statesController.getContigStates);
 
-router.route('/')
+/* router.route('/')
     .get(statesController.getAllStates)
     .post(statesController.createNewStateFunfact)
     .put(statesController.updateStateFunfact)
-    .delete(statesController.deleteFunfact);
+    .delete(statesController.deleteFunfact); */
 
 //router.route('/:state/funfacts')
     //.get();

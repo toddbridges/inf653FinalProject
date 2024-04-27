@@ -73,14 +73,14 @@ const getAllStates = async (req,res) => {
 }
 
 const createNewStateFunfact = async (req, res) => {
+    console.log("in the create new state funfact");
+    const info = (req.body.funfacts);
+    console.log(info);
     
-    const info = (req.body)
-    
-    var theInfo = [];
+    /* var theInfo = [];
     for(let i = 0; i < info.funfacts.length; i++) {
         theInfo.push(info.funfacts[i]);
-    }
-
+    } */
 
     const input = (req.params.state).toUpperCase();
     // const theState = req.body.stateCode;
@@ -91,14 +91,14 @@ const createNewStateFunfact = async (req, res) => {
             { stateCode: input },
             {
                 $push: {
-                  funfacts: { $each: theInfo  }
+                  funfacts: info
                 }
                 
             }
         );
         
 
-        //console.log(result);
+        
         res.status(201).json(answer);
     } catch (err) {
         console.error(err);
@@ -136,7 +136,7 @@ const getState = async (req, res) => {
 }
 
 const getStateCapital = (req, res) => {
-    // console.log("at the get state captial part.");
+    console.log("at the get state captial part.");
     
     const input = (req.params.state).toUpperCase();
     
@@ -151,7 +151,8 @@ const getStateCapital = (req, res) => {
             
         }
     }
-    res.json(answer);
+    
+    return res.json( answer );
     } else {
         res.json({"message": "Invalid state abbreviation parameter"});
     }
