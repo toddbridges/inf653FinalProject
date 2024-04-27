@@ -188,7 +188,7 @@ const getStatePopulation = (req, res) => {
         if(data.states[i].code == input) {
             
             answer.state = data.states[i].state;
-            answer.population = data.states[i].population;
+            answer.population = data.states[i].population.toLocaleString();
             
         }
     }
