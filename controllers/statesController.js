@@ -130,18 +130,18 @@ const getState = async (req, res) => {
             theAnswer = (localStates[i]);
         }
     }
-    
+    if(mongState.funfacts.length > 0) {
     theAnswer['funfacts'] = mongState.funfacts; // This adds the MongoDB info to the object
-    
+    }
     res.json(theAnswer);
     
     // console.log("the test is here");
 }
 
-const getStateCapital = (req, res) => {
+const getStateCapital = async (req, res) => {
     // console.log("at the get state captial part.");
     
-    const input = (req.params.state).toUpperCase();
+    const input = await (req.params.state).toUpperCase();
     if(input.length > 2) {
         res.json({"message": "Invalid state abbreviation parameter"});
       }
@@ -157,17 +157,15 @@ const getStateCapital = (req, res) => {
         }
     }
     res.json(answer);
-    } else {
-        res.json({"message": "Invalid state abbreviation parameter"})
-    }
+    } 
     
 }
-const getStateNickname = (req, res) => {
+const getStateNickname = async (req, res) => {
     // console.log("at the get state nickname part.");
     
-    const input = (req.params.state).toUpperCase();
+    const input = await (req.params.state).toUpperCase();
     if(input.length > 2) {
-        res.json({"message": "Invalid state abbreviation parameter"});
+        return res.json({"message": "Invalid state abbreviation parameter"});
       }
     let answer = {};
     
@@ -178,14 +176,15 @@ const getStateNickname = (req, res) => {
             
         }
     }
-    res.json(answer);
+    
+    return res.json(answer);
 }
 
 const getStatePopulation = (req, res) => {
     
     const input = (req.params.state).toUpperCase();
     if(input.length > 2) {
-        res.json({"message": "Invalid state abbreviation parameter"});
+        return res.json({"message": "Invalid state abbreviation parameter"});
       }
     let answer = {};
     
@@ -203,8 +202,9 @@ const getStateAdmission = (req, res) => {
     
     const input = (req.params.state).toUpperCase();
     if(input.length > 2) {
-        res.json({"message": "Invalid state abbreviation parameter"});
+        return res.json({"message": "Invalid state abbreviation parameter"});
       }
+      
     let answer = {};
     
     for(let i = 0; i < data.states.length; i++) {
@@ -218,10 +218,10 @@ const getStateAdmission = (req, res) => {
 }
 
 const updateFunfacts = async (req, res) => {
-    if (!req.body?.funfacts || !req.body?.index) {
+    /* if (!req.body?.funfacts || !req.body?.index) {
         return res.status(400).json({ 'message': 'index and funfacts are required' });
-    }
-
+    } */
+    
     const arrayIndex = req.body.index - 1;  // mongodb is zero based array indexing
     const input = (req.params.state).toUpperCase(); // get the state code from url
 
@@ -229,7 +229,7 @@ const updateFunfacts = async (req, res) => {
 
         const answer = await State.updateOne(
             { stateCode: input },
-            { $set : { [`funfacts.${arrayIndex}`] : req.body.funfacts }
+            { $set : { [`funfacts.${arrayIndex}`] : req.body.funfact }
                 
             }
         );
@@ -242,12 +242,16 @@ const updateFunfacts = async (req, res) => {
 }
 
 const deleteFunfact = async (req, res) => {
-    if (!req.body?.index) {
-        return res.status(400).json({ 'message': 'index is required' });
+    console.log("at the delete part");
+    if (!req.body.index) {
+        return res.json({ 'message': 'State fun fact index value required' });
     }
+    
+    console.log(req.body.index);
 
     const arrayIndex = req.body.index - 1;  // mongodb is zero based array indexing
     const input = (req.params.state).toUpperCase(); // get the state code from url
+    
     var key = "tobePulled";
 
     try {
@@ -282,7 +286,7 @@ const randomFunfact = async (req, res) => {
     
     const theState = (req.params.state).toUpperCase();
     if(theState.length > 2) {
-        res.json({"message": "Invalid state abbreviation parameter"});
+        return res.json({"message": "Invalid state abbreviation parameter"});
       }
     var theAnswer = {};
     
