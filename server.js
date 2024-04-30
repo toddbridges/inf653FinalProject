@@ -4,7 +4,7 @@ const app = express();
 
 const path = require('path');
 const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
+// const corsOptions = require('./config/corsOptions');
 const errorHandler = require('./middleware/errorHandler');
 const verifyState = require('./middleware/verifyState.js');
 const mongoose = require('mongoose');
