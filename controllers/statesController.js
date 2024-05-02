@@ -74,31 +74,27 @@ const getAllStates = async (req,res) => {
 
 const createNewStateFunfact = async (req, res) => {
     
-    const info = (req.body)
+    const info = (req.body.funfacts);
+    console.log(info);
+    console.log(typeof info);
     
     var theInfo = [];
-    for(let i = 0; i < info.funfacts.length; i++) {
+    // 5/2 commented out
+    /* for(let i = 0; i < info.funfacts.length; i++) {
         theInfo.push(info.funfacts[i]);
-    }
-
-
+    } */
     const input = (req.params.state).toUpperCase();
     // const theState = req.body.stateCode;
-
     try {
-        
         const answer = await State.updateOne(
             { stateCode: input },
             {
                 $push: {
-                  funfacts: { $each: theInfo  }
+                  funfacts: { $each: info  }
                 }
-                
             }
         );
-        
-
-        //console.log(result);
+        console.log(answer);
         res.status(201).json(answer);
     } catch (err) {
         console.error(err);
